@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exds Navigation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6c5ce7;
+            --secondary-color: #a29bfe;
+            --text-color: #2d3436;
+            --bg-color: #f9f9f9;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-attachment: fixed;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* 背景动画元素 */
+        .bg-bubbles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+        
+        .bg-bubbles li {
+            position: absolute;
+            list-style: none;
+            display: block;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.15);
+            bottom: -160px;
+            animation: square 25s infinite;
+            transition-timing-function: linear;
+            border-radius: 10px;
+        }
+        
+        @keyframes square {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        /* 创建多个气泡 */
+        .bg-bubbles li:nth-child(1) {
+            left: 10%;
+            width: 80px;
+            height: 80px;
+            animation-delay: 0s;
+            animation-duration: 17s;
+        }
+        
+        .bg-bubbles li:nth-child(2) {
+            left: 20%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 2s;
+            animation-duration: 22s;
+        }
+        
+        .bg-bubbles li:nth-child(3) {
+            left: 25%;
+            animation-delay: 4s;
+        }
+        
+        .bg-bubbles li:nth-child(4) {
+            left: 40%;
+            width: 60px;
+            height: 60px;
+            animation-delay: 0s;
+            animation-duration: 18s;
+        }
+        
+        .bg-bubbles li:nth-child(5) {
+            left: 70%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 0s;
+        }
+        
+        .bg-bubbles li:nth-child(6) {
+            left: 80%;
+            width: 110px;
+            height: 110px;
+            animation-delay: 3s;
+        }
+        
+        .bg-bubbles li:nth-child(7) {
+            left: 32%;
+            width: 30px;
+            height: 30px;
+            animation-delay: 7s;
+        }
+        
+        .bg-bubbles li:nth-child(8) {
+            left: 55%;
+            width: 40px;
+            height: 40px;
+            animation-delay: 15s;
+            animation-duration: 20s;
+        }
+        
+        .bg-bubbles li:nth-child(9) {
+            left: 25%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 2s;
+            animation-duration: 30s;
+        }
+        
+        .bg-bubbles li:nth-child(10) {
+            left: 90%;
+            width: 160px;
+            height: 160px;
+            animation-delay: 11s;
+        }
+        
+        /* 个人资料区域 */
+        .profile {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease;
+        }
+        
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .profile-pic:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+        
+        .bio {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        
+        .location {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: #636e72;
+            margin-top: 10px;
+        }
+        
+        .location i {
+            margin-right: 5px;
+        }
+        
+        /* 链接区域 */
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .link-item {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            padding: 18px 20px;
+            border-radius: 15px;
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .link-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .link-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            color: white;
+        }
+        
+        .link-item:hover::before {
+            opacity: 1;
+        }
+        
+        .link-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .link-icon i {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+        
+        .link-content {
+            flex-grow: 1;
+            text-align: left;
+        }
+        
+        .link-title {
+            font-size: 1.1rem;
+            margin-bottom: 3px;
+        }
+        
+        .link-url {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            font-weight: normal;
+            word-break: break-all;
+        }
+        
+        /* 社交媒体图标 */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .social-link {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            text-decoration: none; /* 添加这行来去除下划线 */
+        }
+        
+        .social-link:hover {
+            transform: translateY(-5px) scale(1.1);
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .profile-pic {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .link-item {
+                padding: 15px;
+            }
+            
+            .link-icon {
+                width: 35px;
+                height: 35px;
+                margin-right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景动画气泡 -->
+    <ul class="bg-bubbles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    
+    <div class="container">
+        <div class="profile">
+            <img src="https://nav.exds.eu.org/logo.jpg" alt="头像" class="profile-pic">
+            <h1>Exds Nav</h1>
+            <p class="bio">旅行家 | 自由创作者 | Geek</p>
+            <div class="location">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>环游世界中</span>
+            </div>
+        </div>
+        
+        <div class="links" id="links-container">
+            <!-- 链接将通过JavaScript动态添加 -->
+        </div>
+        
+        <div class="social-links">
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+        </div>
+    </div>
+
+    <script>
+        // 链接数据
+        const links = [
+            {
+                name: "Exds",
+                url: "https://exds.eu.org/",
+                icon: "fa-solid fa-blog"
+            },
+            {
+                name: "Pete's Navigation",
+                url: "https://nav.exds.eu.org/",
+                icon: "fa-solid fa-link"
+            },
+            {
+                name: "Exds 图库",
+                url: "https://img.exds.eu.org/",
+                icon: "fa-solid fa-image"
+            },
+            {
+                name: "每日圣言",
+                url: "https://exod.us.kg/",
+                icon: "fa-solid fa-cross"
+            },
+            {
+                name: "我信",
+                url: "https://holy.exod.us.kg/",
+                icon: "fa-solid fa-cross"
+            }
+        ];
+        
+        // 加载链接
+        function loadLinks() {
+            const container = document.getElementById('links-container');
+            container.innerHTML = '';
+            
+            links.forEach(link => {
+                const linkElement = document.createElement('a');
+                linkElement.href = link.url;
+                linkElement.className = 'link-item';
+                linkElement.target = '_blank';
+                
+                linkElement.innerHTML = `
+                    <div class="link-icon">
+                        <i class="${link.icon}"></i>
+                    </div>
+                    <div class="link-content">
+                        <div class="link-title">${link.name}</div>
+                        <div class="link-url">${link.url.replace(/^https?:\/\//, '')}</div>
+                    </div>
+                `;
+                
+                container.appendChild(linkElement);
+            });
+        }
+        
+        // 页面加载时显示链接
+        window.addEventListener('DOMContentLoaded', () => {
+            loadLinks();
+            
+            // 添加滚动动画
+            const elements = document.querySelectorAll('.profile, .links, .social-links');
+            elements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.animation = 'none';
+            });
+            
+            setTimeout(() => {
+                elements.forEach((el, index) => {
+                    setTimeout(() => {
+                        el.style.opacity = '1';
+                        el.style.animation = index === 0 ? 'fadeInDown 1s ease' : 'fadeInUp 1s ease';
+                    }, index * 200);
+                });
+            }, 300);
+        });
+        
+        // 添加新链接的函数（可以扩展为表单）
+        function addLink(name, url, icon) {
+            links.push({name, url, icon});
+            loadLinks();
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
